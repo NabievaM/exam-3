@@ -1,8 +1,14 @@
 const Statistika = require("../models/statistika.model");
+const { statistikaValidation } = require("../validations/statistika.validation");
+const CustomError = require("../utils/custom-error");
 
 const create = async (req, res, next) => {
     try {
         const { group_id, student_id, project, ball, grade, status } = req.body;
+
+        const error = statistikaValidation.create({ group_id, student_id, project, ball, grade, status });
+        if (error) throw new CustomError(400, error.message);
+
         const statistika = await Statistika.create({ group_id, student_id, project, ball, grade, status });
         res.json({ message: "Success Create", statistika });
     } catch (error) {

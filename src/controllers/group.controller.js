@@ -1,8 +1,12 @@
 const Group = require("../models/group.model");
+const { groupValidation } = require("../validations/group.validation");
 
 const create = async (req, res, next) => {
   try {
     const { name } = req.body;
+
+    const error = groupValidation.create({ name });
+    if (error) throw new CustomError(400, error.message);
 
     const group = await Group.create({
       name,

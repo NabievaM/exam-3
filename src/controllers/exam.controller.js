@@ -1,8 +1,13 @@
 const Exam = require("../models/exam.model");
+const { examValidation } = require("../validations/exam.validation");
 
 const create = async (req, res, next) => {
     try {
         const { name, project_name, endtime, group_id } = req.body;
+
+        const error = examValidation.create({ name, project_name, endtime, group_id });
+        if (error) throw new CustomError(400, error.message);
+
         const exam = await Exam.create({ name, project_name, endtime, group_id });
         res.json({ message: "Success Created", exam });
     } catch (error) {

@@ -5,8 +5,10 @@ const schema = new Schema({
         ref: "isStudent",
         required: true,
     },
-    text: String,
-    photo: String,
+    text: {
+        type: String,
+        required: true
+    },
 },
     {
         timestamps: true

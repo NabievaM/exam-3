@@ -1,4 +1,3 @@
-const fileUpload = require("express-fileupload");
 const errorHandler = require("../middlewares/error-handler");
 const routes = require("../routes");
 
@@ -7,7 +6,6 @@ const modules = async (app, express) => {
   app.use(express.urlencoded({ extended: true }));
 
   app.use("/api", routes);
-  app.use(fileUpload());
 
   app.use(errorHandler);
 };

@@ -1,9 +1,15 @@
 const Student_exam = require("../models/student_exam.model");
+const { studentExamValidation } = require("../validations/student_exam.validation");
+const CustomError = require("../utils/custom-error");
+
 const create = async (req, res, next) => {
     try {
         const { studentLogin_id, text } = req.body;
-        const file = req.body.file;
-        const data = await Student_exam.create({ studentLogin_id, text, photo: file });
+
+        const error = studentExamValidation.create({ studentLogin_id, text });
+        if (error) throw new CustomError(400, error.message);
+
+        const data = await Student_exam.create({ studentLogin_id, text });
         res.json({ message: "Success created", data });
 
     } catch (error) {

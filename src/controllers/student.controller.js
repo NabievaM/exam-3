@@ -1,8 +1,13 @@
 const Student = require("../models/student.model");
+const { studentValidation } = require("../validations/student.Validation");
+const CustomError = require("../utils/custom-error");
 
 const create = async (req, res, next) => {
     try {
         const { fullName, phone, username, password, group_id } = req.body;
+
+        const error = studentValidation.create({ fullName, phone, username, password, group_id });
+        if (error) throw new CustomError(400, error.message);
 
         const student = await Student.create({
             fullName, phone, username, password, group_id
